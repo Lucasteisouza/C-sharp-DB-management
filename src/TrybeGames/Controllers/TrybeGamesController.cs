@@ -133,12 +133,12 @@ public class TrybeGamesController
     {
         Console.WriteLine("Digite o nome do estúdio de jogos:");
         var gameStudioName = Console.ReadLine();
-        Console.WriteLine("Digite a data de fundação do estúdio de jogos (dd/mm/aaaa):");
-        var gameStudioDate = Console.ReadLine();
+        // Console.WriteLine("Digite a data de fundação do estúdio de jogos (dd/mm/aaaa):");
+        // var gameStudioDate = Console.ReadLine();
         GameStudio newGameStudio = new GameStudio{
             Name = gameStudioName,
             Id = database.GameStudios.Count + 1,
-            CreatedAt = DateTime.ParseExact(gameStudioDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+            CreatedAt = DateTime.Now
             };
         database.GameStudios.Add(newGameStudio);
         Console.WriteLine("Estúdio de jogos adicionado com sucesso!");

@@ -43,22 +43,48 @@ public class TrybeGamesDatabase
     // 7. Crie a funcionalidade de buscar todos os jogos junto do nome do estúdio desenvolvedor
     public List<GameWithStudio> GetGamesWithStudio()
     {
-        // Implementar
-        throw new NotImplementedException();                      
+        var gamelist = 
+            from game in Games
+            from studio in GameStudios
+                where game.DeveloperStudio == studio.Id
+            select new GameWithStudio {
+                GameName = game.Name,
+                StudioName = studio.Name,
+                NumberOfPlayers = game.Players.Count
+                };
+        return gamelist.ToList(); 
     }
     
     // 8. Crie a funcionalidade de buscar todos os diferentes Tipos de jogos dentre os jogos cadastrados
     public List<GameType> GetGameTypes()
     {
-        // Implementar
-        throw new NotImplementedException();
+        var gameList = 
+            from game in Games
+            select game.GameType;
+        return gameList.Distinct().ToList();
     }
 
     // 9. Crie a funcionalidade de buscar todos os estúdios de jogos junto dos seus jogos desenvolvidos com suas pessoas jogadoras
     public List<StudioGamesPlayers> GetStudiosWithGamesAndPlayers()
     {
-        // Implementar
-        throw new NotImplementedException();
+        var studioGamesPlayersList = 
+            from studio in GameStudios
+            select new StudioGamesPlayers {
+                GameStudioName = studio.Name,
+                Games = (
+                    from game in Games
+                    where game.DeveloperStudio == studio.Id
+                    select new GamePlayer {
+                        GameName = game.Name,
+                        Players = (
+                            from player in Players
+                            where game.Players.Contains(player.Id)
+                            select player
+                        ).ToList()
+                    }
+                ).ToList()
+            };
+        return studioGamesPlayersList.ToList();
     }
 
 }
